@@ -8,6 +8,7 @@ import { addHours } from 'date-fns'
 import { getMessagesES } from '../../helpers/getMessages'
 import { CalendarEvent } from '../components/CalendarEvent'
 import { useState } from 'react'
+import { CalendarModal } from '../components/CalendarModal'
 
 
 
@@ -84,6 +85,7 @@ export const CalendarPage = () => {
                     onView={onViewChanged}
                 />
             </div>
+            <CalendarModal></CalendarModal>
         </>
     )
 }

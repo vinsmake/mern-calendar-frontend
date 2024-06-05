@@ -8,6 +8,7 @@ import { es } from 'date-fns/locale/es';
 import Swal from "sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useUiStore } from "../../store/ui/useUiStore";
+import { useCalendarStore } from "../../store/calendar/useCalendarStore";
 
 registerLocale('es', es)
 
@@ -27,10 +28,11 @@ Modal.setAppElement('#root');
 export const CalendarModal = () => {
 
   const {isDateModalOpen, closeDateModal  } = useUiStore();
+  const {activeEvent, startSavingEvent} = useCalendarStore();
   const [ formSubmitted, setFormSubmitted ] = useState(false);
   const [formValues, setFormValues] = useState({
-    title: 'Vinsmake',
-    notes: 'My note',
+    title: '',
+    notes: '',
     start: new Date(),
     end: addHours(new Date(), 2)
   });
@@ -44,6 +46,11 @@ export const CalendarModal = () => {
 
 }, [ formValues.title, formSubmitted ])
 
+useEffect(() => {
+  if (activeEvent !== null) {
+    setFormValues({...activeEvent})
+  }
+}, [activeEvent])
 
 
 
@@ -80,6 +87,10 @@ export const CalendarModal = () => {
     if ( formValues.title.length <= 0 ) return;
     
     console.log(formValues);
+
+    await startSavingEvent(formValues);
+    closeDateModal();
+    setFormSubmitted(false);
 
 }
 

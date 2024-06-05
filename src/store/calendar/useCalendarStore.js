@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { onSetActiveEvent } from "./calendarSlice";
+import { onAddNewEvent, onSetActiveEvent, onUpdateEvent } from "./calendarSlice";
 
 
 export const useCalendarStore = () => {
@@ -13,9 +13,21 @@ export const useCalendarStore = () => {
         dispatch( onSetActiveEvent( calendarEvent ) )
     }
 
+
+    const startSavingEvent = async(calendarEvent) => {
+
+        /* Si se tiene id, se esta actualizando una nota, caso contrario, se esta creando. */
+        if (calendarEvent._id) {
+            dispatch(onUpdateEvent({...calendarEvent}))
+        } else {
+            dispatch(onAddNewEvent({...calendarEvent, _id : new Date().getTime()}))
+        }
+    }
+
     return {
         events,
         activeEvent,
         setActiveEvent,
+        startSavingEvent
     }
 }

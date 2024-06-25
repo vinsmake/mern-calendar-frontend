@@ -20,27 +20,33 @@ const registerFormFields = {
 
 export const LoginPage = () => {
 
-    const { startLogin, errorMessage } = useAuthStore();
+    const { startLogin, errorMessage, startRegister } = useAuthStore();
 
-    const {loginEmail, loginPassword, onInputChange:onLoginInputChange} = useForm(loginFormFields);
-    const {registerEmail, registerName, registerPassword, registerPassword2, onInputChange:onRegisterInputChange } = useForm(loginFormFields);
+    const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginFormFields);
+    const { registerEmail, registerName, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm(loginFormFields);
 
     const loginSubmit = (event) => {
         event.preventDefault();
-        startLogin({email: loginEmail, password: loginPassword});
+        startLogin({ email: loginEmail, password: loginPassword });
     }
 
     const registerSubmit = (event) => {
         event.preventDefault();
-        console.log({registerEmail, registerName, registerPassword, registerPassword2});
+
+        if (registerPassword !== registerPassword2) {
+            Swal.fire('Error en registro', 'Las contraseñas no coinciden', 'error');
+            return;
+        }
+
+        startRegister({email: registerEmail, name: registerName, password: registerPassword });
     }
-    
+
     useEffect(() => {
-    if (errorMessage !== undefined) {
-        Swal.fire('Error en autenticacion', errorMessage, 'error')
-    }
+        if (errorMessage !== undefined) {
+            Swal.fire('Error en autenticacion', errorMessage, 'error')
+        }
     }, [errorMessage])
-    
+
 
     return (
         <div className="container login-container">

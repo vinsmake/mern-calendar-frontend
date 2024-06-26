@@ -2,10 +2,10 @@ import { useCalendarStore } from "../../store/calendar/useCalendarStore"
 
 export const FabDelete = () => {
 
-    const {StartDeletingEvent, hasEventSelected} = useCalendarStore();
+    const {startDeletingEvent, hasEventSelected} = useCalendarStore();
 
     const handleClickDelete = () => {
-        StartDeletingEvent();
+        startDeletingEvent();
     }
 
 

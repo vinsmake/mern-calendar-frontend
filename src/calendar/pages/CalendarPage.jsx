@@ -6,7 +6,7 @@ import { Navbar } from "../components/Navbar"
 import { localizer } from '../../helpers/calendarLocalizer'
 import { getMessagesES } from '../../helpers/getMessages'
 import { CalendarEvent } from '../components/CalendarEvent'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CalendarModal } from '../components/CalendarModal'
 import { useUiStore } from '../../store/ui/useUiStore'
 import { useCalendarStore  } from '../../store/calendar/useCalendarStore'
@@ -20,7 +20,7 @@ export const CalendarPage = () => {
 
 
     const { openDateModal, closeDateModal } = useUiStore();
-    const { events, setActiveEvent } = useCalendarStore();
+    const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
     /* onViewChanged state */
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week');
 
@@ -55,6 +55,10 @@ export const CalendarPage = () => {
     }
 
 
+    useEffect(() => {
+        startLoadingEvents()
+    }, [])
+    
 
 
     return (

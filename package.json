@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
     "gitDeploy": "npm run build && npm run deploy",
-    "gitUpdate": "git status && git add . && git commit -m \"Project updated\" && git push origin main:develop",
+    "gitUpdate": "powershell -Command \"git status; git add .; git commit -m \\\"$env:npm_config_message\\\"; git push origin main:develop\"",
     "gitPages": "npm run gitUpdate && npm run gitDeploy"
   },
   "dependencies": {

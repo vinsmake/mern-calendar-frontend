@@ -12,6 +12,7 @@ import { useUiStore } from '../../store/ui/useUiStore'
 import { useCalendarStore  } from '../../store/calendar/useCalendarStore'
 import { FabAddNew } from '../components/FabAddNew'
 import { FabDelete } from '../components/FabDelete'
+import { useAuthStore } from '../../store/auth/useAuthStore'
 
 
 
@@ -19,15 +20,20 @@ import { FabDelete } from '../components/FabDelete'
 export const CalendarPage = () => {
 
 
+    const {user} = useAuthStore();
     const { openDateModal, closeDateModal } = useUiStore();
     const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
     /* onViewChanged state */
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week');
 
 
+
     const eventStyleGetter = (event, start, end, isSelected) => {
+
+        const isMyEvent = (user.uid === event.user._id) || (user.uid === event.user.uid)
+
         const style = {
-            backgroundColor: '#347CF7',
+            backgroundColor: isMyEvent ? '#347CF7' : '#465660',
             borderRadius: '0px',
             opacity: 0.8,
             color: 'white'
